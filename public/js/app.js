@@ -4,8 +4,8 @@ var app = {
 	context: null,
 
 	//resizing (values are dynamically changed in resize func)
-	width: 800,
-	height: 400,
+	width: null,
+	height: null,
 
 	//nodes
 	nodes: [],
@@ -63,7 +63,7 @@ var app = {
 	onUpdate: function () {},
 
 	//resize canvas, to fit the screen
-	resize: () => {
+	resize: function () {
 		this.width = window.innerWidth - 100;
 		this.height = this.width / 2;
 		canvas.width = this.width;
