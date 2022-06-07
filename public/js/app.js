@@ -44,6 +44,7 @@ var app = {
 			if (node.id === "ball") {
 				this.context.beginPath();
 				this.context.arc(node.x, node.y, node.r, 0, Math.PI * 2, true);
+				this.context.closePath();
 				this.context.fill();
 			}
 			//draw circle for ball
