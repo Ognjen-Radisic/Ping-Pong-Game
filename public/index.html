@@ -38,6 +38,16 @@
 					height: this.height / 4,
 					color: "black",
 				});
+
+				this.nodes.push({
+					id: "ball",
+					x: this.width / 2,
+					y: this.height / 2,
+					r: this.width / 60,
+					color: "red",
+				});
+
+				const drawBall = function () {};
 			};
 
 			app.onUpdate = function (time) {
