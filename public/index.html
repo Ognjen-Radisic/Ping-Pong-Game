@@ -48,7 +48,36 @@
 					color: "red",
 				});
 
-				document.addEventListener("keydown", movePlayer.bind(app));
+				const movementControls = {
+					player1Up: false,
+					player1Down: false,
+					player2Up: false,
+					player2Down: false,
+				};
+
+				function updateMovementControls(e, controls, value) {
+					if (e.keyCode == 87) {
+						controls.player1Up = value;
+					}
+					if (e.keyCode == 83) {
+						controls.player1Down = value;
+					}
+					if (e.keyCode == 38) {
+						controls.player2Up = value;
+					}
+					if (e.keyCode == 40) {
+						controls.player2Down = value;
+					}
+				}
+
+				document.addEventListener("keydown", function (e) {
+					updateMovementControls(e, movementControls, true);
+					movePlayer(movementControls);
+				});
+				document.addEventListener("keyup", function (e) {
+					updateMovementControls(e, movementControls, false);
+					movePlayer(movementControls);
+				});
 			};
 
 			app.onUpdate = function (time) {
