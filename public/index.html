@@ -7,9 +7,9 @@
 				margin: 0;
 			}
 			canvas {
-				box-shadow: black 20px 10px 50px;
+				box-shadow: black 5px 10px 50px;
 				margin-top: 50vh;
-				margin-left: 50px;
+				margin-left: 30px;
 				transform: translateY(-50%);
 			}
 		</style>
@@ -52,7 +52,7 @@
 					y: this.height / 2,
 					r: this.width / 60,
 					color: "red",
-					speed: 2,
+					speed: 2.2,
 					velocityX: -1,
 					velocityY: 1,
 				});
@@ -111,6 +111,13 @@
 
 				//logic if ball hits bottom or top of the canvas
 				if (ball.y + ball.r >= this.height || ball.y - ball.r <= 0) {
+					//LOGIC to fix an edge case when ball slide on the edge of the board
+					if (ball.y - ball.r < 0) {
+						ball.y = ball.r;
+					}
+					if (ball.y + ball.r >= this.height) {
+						ball.y -= ball.r;
+					}
 					ball.velocityY = -ball.velocityY;
 				}
 

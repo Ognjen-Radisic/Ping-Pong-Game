@@ -74,7 +74,7 @@ var app = {
 
 	//resize canvas, to fit the screen
 	resize: function () {
-		this.width = window.innerWidth - 100;
+		this.width = window.innerWidth - 60;
 		this.height = this.width / 2;
 		canvas.width = this.width;
 		canvas.height = this.height;
