@@ -1,3 +1,18 @@
+function updateMovementControls(e, controls, value) {
+	if (e.keyCode == 87) {
+		controls.player1Up = value;
+	}
+	if (e.keyCode == 83) {
+		controls.player1Down = value;
+	}
+	if (e.keyCode == 38) {
+		controls.player2Up = value;
+	}
+	if (e.keyCode == 40) {
+		controls.player2Down = value;
+	}
+}
+
 function enableDisablePlayerMovement(controls) {
 	let player1 = app.getNode("player-1");
 	let player2 = app.getNode("player-2");

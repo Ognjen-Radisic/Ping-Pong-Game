@@ -57,7 +57,7 @@
 					velocityY: 1,
 				});
 
-				//----------LOGIC TO MOVE PLAYERS--------BEGIN-------------//
+				//-----------LOGIC TO ENABLE/DISABLE PLAYERS MOVEMENT----------------//
 				//controls that allow simultaneous movement of both player
 				const movementControls = {
 					player1Up: false,
@@ -66,32 +66,15 @@
 					player2Down: false,
 				};
 
-				function updateMovementControls(e, controls, value) {
-					if (e.keyCode == 87) {
-						controls.player1Up = value;
-					}
-					if (e.keyCode == 83) {
-						controls.player1Down = value;
-					}
-					if (e.keyCode == 38) {
-						controls.player2Up = value;
-					}
-					if (e.keyCode == 40) {
-						controls.player2Down = value;
-					}
-				}
-
+				// updateMovementControls and enableDisablePlayerMovement functions are from utils.js file
 				document.addEventListener("keydown", function (e) {
 					updateMovementControls(e, movementControls, true);
-					//function from utils.js file
 					enableDisablePlayerMovement(movementControls);
 				});
 				document.addEventListener("keyup", function (e) {
 					updateMovementControls(e, movementControls, false);
-					//function from utils.js file
 					enableDisablePlayerMovement(movementControls);
 				});
-				//----------LOGIC TO MOVE PLAYERS--------END-------------//
 			};
 
 			app.onUpdate = function (time) {
@@ -100,14 +83,15 @@
 				const player2 = this.getNode("player-2");
 				let playerInCollision = ball.x < this.width / 2 ? player1 : player2;
 
+				//================ALL GAME MOVEMENT=======================//
 				//LOGIC to move player's paddle smooth
-				//function from utils.js file
-				movePlayer(player1, time);
-				movePlayer(player2, time);
+				movePlayer(player1, time); // function from utils.js file
+				movePlayer(player2, time); // function from utils.js file
 
-				//--------BALL MOVEMENT LOGIC AND COLLISION DETECTION--------//
+				//LOGIC to move ball
 				ball.x += ball.velocityX * ball.speed;
 				ball.y += ball.velocityY * ball.speed;
+				//========================================================//
 
 				//logic if ball hits bottom or top of the canvas
 				if (ball.y + ball.r >= this.height || ball.y - ball.r <= 0) {
@@ -144,7 +128,6 @@
 					// speed up the ball every time a paddle hits it.
 					ball.speed += 0.1;
 				}
-				//-----------------------------------------------------------//
 			};
 		</script>
 	</body>

@@ -15,6 +15,9 @@ var app = {
 	now: 0,
 	lastUpdate: 0,
 
+	// it can be START, PAUSE, RESTART
+	gameState: "START",
+
 	init: function () {
 		this.canvas = document.getElementById("canvas");
 		this.context = this.canvas.getContext("2d");
@@ -71,6 +74,8 @@ var app = {
 	//events
 	onInit: function () {},
 	onUpdate: function () {},
+	pause: function () {},
+	reset: function () {},
 
 	//resize canvas, to fit the screen
 	resize: function () {
