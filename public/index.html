@@ -15,7 +15,7 @@
 		</style>
 	</head>
 	<body>
-		<canvas id="canvas" width="800" height="400"></canvas>
+		<canvas id="canvas"></canvas>
 		<script type="text/javascript" src="js/utils.js"></script>
 		<script type="text/javascript" src="js/app.js"></script>
 		<script type="text/javascript">
@@ -46,8 +46,13 @@
 					y: this.height / 2,
 					r: this.width / 60,
 					color: "red",
+					speed: 2,
+					velocityX: -1,
+					velocityY: 1,
 				});
 
+				//----------LOGIC TO MOVE PLAYERS--------BEGIN-------------//
+				//controls that allow simultaneous movement of both player
 				const movementControls = {
 					player1Up: false,
 					player1Down: false,
@@ -72,21 +77,55 @@
 
 				document.addEventListener("keydown", function (e) {
 					updateMovementControls(e, movementControls, true);
+					//function from utils.js file
 					movePlayer(movementControls);
 				});
 				document.addEventListener("keyup", function (e) {
 					updateMovementControls(e, movementControls, false);
+					//function from utils.js file
 					movePlayer(movementControls);
 				});
+				//----------LOGIC TO MOVE PLAYERS--------END-------------//
 			};
 
 			app.onUpdate = function (time) {
-				// if (Math.cos(this.timestamp / 100) > 0) {
-				// 	this.getNode("red-box").direction = -1;
-				// } else {
-				// 	this.getNode("red-box").direction = 1;
-				// }
-				// this.getNode("red-box").x += this.getNode("red-box").direction;
+				const ball = this.getNode("ball");
+				const player1 = this.getNode("player-1");
+				const player2 = this.getNode("player-2");
+				let playerInCollision = ball.x < this.width / 2 ? player1 : player2;
+
+				//--------BALL MOVEMENT LOGIC AND COLLISION DETECTION--------//
+				ball.x += ball.velocityX * ball.speed;
+				ball.y += ball.velocityY * ball.speed;
+
+				//logic if ball hits bottom or top of the canvas
+				if (ball.y + ball.r >= this.height || ball.y - ball.r <= 0) {
+					ball.velocityY = -ball.velocityY;
+				}
+
+				if (collision(ball, playerInCollision)) {
+					// we check where the ball hits the paddle
+					let collidePoint =
+						ball.y - (playerInCollision.y + playerInCollision.height / 2);
+					// normalize the value of collidePoint, we need to get numbers between -1 and 1.
+					// -player.height/2 < collide Point < player.height/2
+					collidePoint = collidePoint / (playerInCollision.height / 2);
+
+					// when the ball hits the top of a paddle we want the ball, to take a -45degrees angle
+					// when the ball hits the center of the paddle we want the ball to take a 0degrees angle
+					// when the ball hits the bottom of the paddle we want the ball to take a 45degrees
+					// Math.PI/4 = 45degrees
+					let angleRad = (Math.PI / 4) * collidePoint;
+
+					// change the X and Y velocity direction
+					let direction = ball.x + ball.r < canvas.width / 2 ? 1 : -1;
+					ball.velocityX = direction * ball.speed * Math.cos(angleRad);
+					ball.velocityY = ball.speed * Math.sin(angleRad);
+
+					// speed up the ball every time a paddle hits it.
+					ball.speed += 0.1;
+				}
+				//-----------------------------------------------------------//
 			};
 		</script>
 	</body>
