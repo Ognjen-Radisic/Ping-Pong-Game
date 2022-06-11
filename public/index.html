@@ -29,6 +29,9 @@
 					width: this.width / 35,
 					height: this.height / 4,
 					color: "black",
+					speed: 0.2,
+					up: false,
+					down: false,
 				});
 
 				this.nodes.push({
@@ -38,6 +41,9 @@
 					width: this.width / 35,
 					height: this.height / 4,
 					color: "black",
+					speed: 0.2,
+					up: false,
+					down: false,
 				});
 
 				this.nodes.push({
@@ -78,12 +84,12 @@
 				document.addEventListener("keydown", function (e) {
 					updateMovementControls(e, movementControls, true);
 					//function from utils.js file
-					movePlayer(movementControls);
+					enableDisablePlayerMovement(movementControls);
 				});
 				document.addEventListener("keyup", function (e) {
 					updateMovementControls(e, movementControls, false);
 					//function from utils.js file
-					movePlayer(movementControls);
+					enableDisablePlayerMovement(movementControls);
 				});
 				//----------LOGIC TO MOVE PLAYERS--------END-------------//
 			};
@@ -94,6 +100,11 @@
 				const player2 = this.getNode("player-2");
 				let playerInCollision = ball.x < this.width / 2 ? player1 : player2;
 
+				//LOGIC to move player's paddle smooth
+				//function from utils.js file
+				movePlayer(player1, time);
+				movePlayer(player2, time);
+
 				//--------BALL MOVEMENT LOGIC AND COLLISION DETECTION--------//
 				ball.x += ball.velocityX * ball.speed;
 				ball.y += ball.velocityY * ball.speed;
@@ -103,6 +114,7 @@
 					ball.velocityY = -ball.velocityY;
 				}
 
+				//collision function from utils.js file
 				if (collision(ball, playerInCollision)) {
 					// we check where the ball hits the paddle
 					let collidePoint =

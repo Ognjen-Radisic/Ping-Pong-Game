@@ -1,37 +1,24 @@
-function movePlayer(controls) {
+function enableDisablePlayerMovement(controls) {
 	let player1 = app.getNode("player-1");
 	let player2 = app.getNode("player-2");
 
-	//If W is Clicked then player1 will move in left direction
-	if (controls.player1Up) {
-		player1.y = player1.y > 0 ? player1.y - player1.height / 8 : player1.y;
-		if (player1.y < 0) player1.y = 0;
+	player1.up = controls.player1Up;
+	player1.down = controls.player1Down;
+	player2.up = controls.player2Up;
+	player2.down = controls.player2Down;
+}
+
+//make players move in game loop if their movement is enabled
+function movePlayer(player, time) {
+	if (player.up) {
+		player.y -= time * player.speed;
+		if (player.y < 0) player.y = 0;
 	}
 
-	//If S is Clicked then player2 will move in Right direction
-	if (controls.player1Down) {
-		player1.y =
-			player1.y + player1.height < app.height
-				? player1.y + player1.height / 8
-				: player1.y;
-		if (player1.y + player1.height > app.height)
-			player1.y = app.height - player1.height;
-	}
-
-	//If Up Arrow is Clicked then player2 will go up
-	if (controls.player2Up) {
-		player2.y = player2.y > 0 ? player2.y - player2.height / 8 : player2.y;
-		if (player2.y < 0) player2.y = 0;
-	}
-
-	//If Down Arrow is Clicked then player2 will move down
-	if (controls.player2Down) {
-		player2.y =
-			player2.y + player2.height < app.height
-				? player2.y + player2.height / 8
-				: player2.y;
-		if (player2.y + player2.height > app.height)
-			player2.y = app.height - player2.height;
+	if (player.down) {
+		player.y += time * player.speed;
+		if (player.y + player.height > app.height)
+			player.y = app.height - player.height;
 	}
 }
 
