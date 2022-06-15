@@ -15,8 +15,7 @@ var app = {
 	now: 0,
 	lastUpdate: 0,
 
-	// it can be START, PAUSE, RESTART
-	gameState: "START",
+	paused: true,
 
 	init: function () {
 		this.canvas = document.getElementById("canvas");
@@ -50,8 +49,11 @@ var app = {
 				this.context.closePath();
 				this.context.fill();
 			}
-			//draw circle for ball
-			else {
+			if (node.id.includes("player")) {
+				//draw circle for ball
+				this.context.fillRect(node.x, node.y, node.width, node.height);
+			}
+			if (this.paused) {
 				this.context.fillRect(node.x, node.y, node.width, node.height);
 			}
 		}
@@ -74,8 +76,6 @@ var app = {
 	//events
 	onInit: function () {},
 	onUpdate: function () {},
-	pause: function () {},
-	reset: function () {},
 
 	//resize canvas, to fit the screen
 	resize: function () {

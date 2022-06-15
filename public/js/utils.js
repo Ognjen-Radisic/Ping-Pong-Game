@@ -13,6 +13,14 @@ function updateMovementControls(e, controls, value) {
 	}
 }
 
+function pauseGame(e) {
+	const notHoldingKeyDown = !e.repeat;
+
+	if (e.keyCode == 32 && notHoldingKeyDown) {
+		app.paused = !app.paused;
+	}
+}
+
 function enableDisablePlayerMovement(controls) {
 	let player1 = app.getNode("player-1");
 	let player2 = app.getNode("player-2");
@@ -53,5 +61,24 @@ function collision(ball, player) {
 		player.top < ball.bottom &&
 		player.right > ball.left &&
 		player.bottom > ball.top
+	);
+}
+
+function drawPausedTitle() {
+	app.context.font = `bold ${app.width / 14}px sans-serif`;
+	app.context.fillStyle = "black";
+	app.context.textAlign = "center";
+	app.context.textBaseLine = "middle";
+	app.context.fillText("Game Paused", app.width / 2, app.height / 4);
+}
+function drawPausedSubtitle() {
+	app.context.font = `${app.width / 30}px sans-serif`;
+	app.context.fillStyle = "black";
+	app.context.textAlign = "center";
+	app.context.textBaseLine = "middle";
+	app.context.fillText(
+		"press 'SPACE' to continue",
+		app.width / 2,
+		app.height / 2.9
 	);
 }
