@@ -21,6 +21,19 @@ function pauseGame(e) {
 	}
 }
 
+function restartGame(e) {
+	let player1 = app.getNode("player-1");
+	let player2 = app.getNode("player-2");
+	const ball = app.getNode("ball");
+	const notHoldingKeyDown = !e.repeat;
+
+	if (app.paused && e.keyCode == 82 && notHoldingKeyDown) {
+		player1.score = 0;
+		player2.score = 0;
+		resetBall(ball);
+	}
+}
+
 function enableDisablePlayerMovement(controls) {
 	let player1 = app.getNode("player-1");
 	let player2 = app.getNode("player-2");
@@ -87,6 +100,18 @@ function drawPausedSubtitle() {
 	);
 }
 
+function drawRestartCommandOptions() {
+	app.context.font = `${app.width / 45}px sans-serif`;
+	app.context.fillStyle = "black";
+	app.context.textAlign = "center";
+	app.context.textBaseLine = "middle";
+	app.context.fillText(
+		"press 'R' to restart game",
+		app.width / 2,
+		(app.height * 9) / 10
+	);
+}
+
 function drawPlayerScore(score, xPosition) {
 	if (score >= 0) {
 		app.context.font = `${app.width / 15}px sans-serif`;
@@ -101,6 +126,15 @@ function drawPlayerScore(score, xPosition) {
 	}
 }
 
+function resetBall(ball) {
+	//reset ball coordinates and movement values
+	ball.x = app.width / 2;
+	ball.y = app.height / 2;
+	ball.speed = app.width / 360;
+	ball.velocityX = -1;
+	ball.velocityY = 1;
+}
+
 async function resetBallAndIncScore(ball, playerThatScored) {
 	//freeze game on global var and increment result
 	app.freezeGame = true;
@@ -109,12 +143,7 @@ async function resetBallAndIncScore(ball, playerThatScored) {
 	//wait for 1.5 seconds
 	await new Promise((resolve) => setTimeout(resolve, 1500));
 
-	//reset ball coordinates and movement values
-	ball.x = app.width / 2;
-	ball.y = app.height / 2;
-	ball.speed = app.width / 360;
-	ball.velocityX = -1;
-	ball.velocityY = 1;
+	resetBall(ball);
 
 	//unfreeze game on global var
 	app.freezeGame = false;

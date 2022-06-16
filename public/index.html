@@ -80,6 +80,7 @@
 				// updateMovementControls and enableDisablePlayerMovement functions are from utils.js file
 				document.addEventListener("keydown", function (e) {
 					pauseGame(e);
+					restartGame(e);
 					updateMovementControls(e, movementControls, true);
 					enableDisablePlayerMovement(movementControls);
 				});
@@ -101,10 +102,11 @@
 				if (this.paused) {
 					drawPausedTitle();
 					drawPausedSubtitle();
+					drawRestartCommandOptions();
 				}
 
 				//have minimal ball speed (used for small screens)
-				if (ball.speed < 1.8) ball.speed = 1.8;
+				if (ball.speed < 2) ball.speed = 2;
 
 				drawPlayerScore(player1.score, 1 / 4);
 				drawPlayerScore(player2.score, 3 / 4);
@@ -154,7 +156,7 @@
 					// Math.PI/4 = 45degrees
 					let angleRad = (Math.PI / 4) * collidePoint;
 
-					// change the X and Y velocity direction
+					// change the X and Y velocity and X direction
 					let direction = ball.x + ball.r < canvas.width / 2 ? 1 : -1;
 					ball.velocityX = direction * ball.speed * Math.cos(angleRad);
 					ball.velocityY = ball.speed * Math.sin(angleRad);
