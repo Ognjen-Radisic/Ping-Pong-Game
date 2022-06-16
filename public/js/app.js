@@ -17,6 +17,9 @@ var app = {
 
 	paused: true,
 
+	//when player scores
+	freezeGame: false,
+
 	init: function () {
 		this.canvas = document.getElementById("canvas");
 		this.context = this.canvas.getContext("2d");

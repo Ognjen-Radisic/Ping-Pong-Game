@@ -29,10 +29,10 @@
 					y: this.height / 2,
 					r: this.width / 60,
 					color: "red",
-					//make speed dependant on the playground height
-					speed: this.height / 180,
-					velocityX: -1,
-					velocityY: 1,
+					//make speed dependant on the playground width
+					speed: this.width / 360,
+					velocityX: -2,
+					velocityY: 2,
 				});
 				this.nodes.push({
 					id: "player-1",
@@ -44,6 +44,7 @@
 					speed: this.height / 1000,
 					up: false,
 					down: false,
+					score: 0,
 				});
 
 				this.nodes.push({
@@ -56,6 +57,7 @@
 					speed: this.height / 1000,
 					up: false,
 					down: false,
+					score: 0,
 				});
 				this.nodes.push({
 					id: "pause-overlay",
@@ -88,16 +90,27 @@
 			};
 
 			app.onUpdate = function (time) {
+				let ballIsMoving = true;
 				const ball = this.getNode("ball");
 				const player1 = this.getNode("player-1");
 				const player2 = this.getNode("player-2");
 				let playerInCollision = ball.x < this.width / 2 ? player1 : player2;
+				let playerThatScored = ball.x < this.width / 2 ? player2 : player1;
 
 				//================PAUSE SCREEN / NO MOVEMENT=======================//
 				if (this.paused) {
 					drawPausedTitle();
 					drawPausedSubtitle();
 				}
+
+				//have minimal ball speed (used for small screens)
+				if (ball.speed < 1.8) ball.speed = 1.8;
+
+				drawPlayerScore(player1.score, 1 / 4);
+				drawPlayerScore(player2.score, 3 / 4);
+
+				//when a player scores freeze game for 1.5 seconds
+				if (app.freezeGame) return;
 
 				//================ALL GAME MOVEMENT=======================//
 				if (!this.paused) {
@@ -120,6 +133,10 @@
 						ball.y -= ball.r;
 					}
 					ball.velocityY = -ball.velocityY;
+				}
+
+				if (playerScoredCollision(ball)) {
+					resetBallAndIncScore(ball, playerThatScored);
 				}
 
 				//collision function from utils.js file

@@ -64,6 +64,10 @@ function collision(ball, player) {
 	);
 }
 
+function playerScoredCollision(ball) {
+	return ball.x - ball.r < 0 || ball.x + ball.r > app.width;
+}
+
 function drawPausedTitle() {
 	app.context.font = `bold ${app.width / 14}px sans-serif`;
 	app.context.fillStyle = "black";
@@ -81,4 +85,37 @@ function drawPausedSubtitle() {
 		app.width / 2,
 		app.height / 2.9
 	);
+}
+
+function drawPlayerScore(score, xPosition) {
+	if (score >= 0) {
+		app.context.font = `${app.width / 15}px sans-serif`;
+		app.context.fillStyle = "black";
+		app.context.textAlign = "center";
+		app.context.textBaseLine = "middle";
+		app.context.fillText(
+			score.toString(),
+			app.width * xPosition,
+			app.height / 8
+		);
+	}
+}
+
+async function resetBallAndIncScore(ball, playerThatScored) {
+	//freeze game on global var and increment result
+	app.freezeGame = true;
+	playerThatScored.score += 1;
+
+	//wait for 1.5 seconds
+	await new Promise((resolve) => setTimeout(resolve, 1500));
+
+	//reset ball coordinates and movement values
+	ball.x = app.width / 2;
+	ball.y = app.height / 2;
+	ball.speed = app.width / 360;
+	ball.velocityX = -1;
+	ball.velocityY = 1;
+
+	//unfreeze game on global var
+	app.freezeGame = false;
 }
