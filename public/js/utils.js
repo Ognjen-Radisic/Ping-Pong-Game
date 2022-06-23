@@ -86,7 +86,7 @@ function drawPausedTitle() {
 	app.context.fillStyle = "black";
 	app.context.textAlign = "center";
 	app.context.textBaseLine = "middle";
-	app.context.fillText("Game Paused", app.width / 2, app.height / 4);
+	app.context.fillText("Game Paused", app.width / 2, app.height / 3.2);
 }
 function drawPausedSubtitle() {
 	app.context.font = `${app.width / 30}px sans-serif`;
@@ -96,7 +96,7 @@ function drawPausedSubtitle() {
 	app.context.fillText(
 		"press 'SPACE' to continue",
 		app.width / 2,
-		app.height / 2.9
+		app.height / 2.55
 	);
 }
 

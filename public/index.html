@@ -27,7 +27,7 @@
 					id: "ball",
 					x: this.width / 2,
 					y: this.height / 2,
-					r: this.width / 60,
+					r: this.width / 70,
 					color: "red",
 					//make speed dependant on the playground width
 					speed: this.width / 360,
@@ -36,9 +36,9 @@
 				});
 				this.nodes.push({
 					id: "player-1",
-					x: this.width / 20 - this.width / 35,
+					x: this.width / 45,
 					y: this.height / 4,
-					width: this.width / 35,
+					width: this.width / 45,
 					height: this.height / 4,
 					color: "black",
 					speed: this.height / 1000,
@@ -49,9 +49,9 @@
 
 				this.nodes.push({
 					id: "player-2",
-					x: this.width - this.width / 20,
+					x: this.width - (this.width / 45) * 2,
 					y: this.height / 4,
-					width: this.width / 35,
+					width: this.width / 45,
 					height: this.height / 4,
 					color: "black",
 					speed: this.height / 1000,
