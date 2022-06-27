@@ -15,6 +15,18 @@ function resetBall(ball) {
 	ball.velocityY = 1;
 }
 
+function getPlayerInCollision(ball) {
+	const player1 = app.getNode(PLAYER_ONE);
+	const player2 = app.getNode(PLAYER_TWO);
+	return ball.x < FIELD_CENTER_X_AXIS() ? player1 : player2;
+}
+
+function getPlayerThatScored(ball) {
+	const player1 = app.getNode(PLAYER_ONE);
+	const player2 = app.getNode(PLAYER_TWO);
+	return ball.x < FIELD_CENTER_X_AXIS() ? player2 : player1;
+}
+
 async function givePlayerPoint(ball, playerThatScored) {
 	app.freezeGame = true;
 	playerThatScored.score += 1;

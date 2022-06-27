@@ -27,12 +27,13 @@ function checkHasBallHitBoundary(ball) {
 		ball.velocityY = -ball.velocityY;
 	}
 }
-function checkHasPlayerScored(ball, playerThatScored) {
+function checkHasPlayerScored(ball) {
 	if (ball.x - ball.r < 0 || ball.x + ball.r > app.width)
-		givePlayerPoint(ball, playerThatScored);
+		givePlayerPoint(ball, getPlayerThatScored(ball));
 }
 
-function checkBallPlayerCollision(ball, playerInCollision) {
+function checkBallPlayerCollision(ball) {
+	const playerInCollision = getPlayerInCollision(ball);
 	if (collision(ball, playerInCollision)) {
 		// we check where the ball hits the paddle
 		let collidePoint =

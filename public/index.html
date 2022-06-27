@@ -18,85 +18,42 @@
 	<body>
 		<canvas id="canvas"></canvas>
 		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/nodes.js"></script>
+		<script type="text/javascript" src="js/getterValues.js"></script>
 		<script type="text/javascript" src="js/drawText.js"></script>
 		<script type="text/javascript" src="js/initGameStates.js"></script>
 		<script type="text/javascript" src="js/movementAndCollision.js"></script>
 		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/constants.js"></script>
 		<script type="text/javascript">
 			app.onInit = function () {
-				this.nodes.push({
-					id: "ball",
-					x: this.width / 2,
-					y: this.height / 2,
-					r: this.width / 70,
-					color: "red",
-					speed: this.width / 360,
-					velocityX: -2,
-					velocityY: 2,
-				});
-				this.nodes.push({
-					id: "player-1",
-					x: this.width / 45,
-					y: this.height / 4,
-					width: this.width / 45,
-					height: this.height / 4,
-					color: "black",
-					speed: this.height / 1000,
-					up: false,
-					down: false,
-					score: 0,
-				});
+				addBall();
+				addPlayer(PLAYER_ONE, PLAYER_X_POS());
+				addPlayer(PLAYER_TWO, app.width - PLAYER_X_POS() * 2);
+				addPauseScreenOverlay();
 
-				this.nodes.push({
-					id: "player-2",
-					x: this.width - (this.width / 45) * 2,
-					y: this.height / 4,
-					width: this.width / 45,
-					height: this.height / 4,
-					color: "black",
-					speed: this.height / 1000,
-					up: false,
-					down: false,
-					score: 0,
-				});
-				this.nodes.push({
-					id: "pause-overlay",
-					x: 0,
-					y: 0,
-					width: this.width,
-					height: this.height,
-					color: "rgba(0,0,0,0.35)",
-				});
-
-				//-----------LOGIC TO ENABLE/DISABLE PLAYERS MOVEMENT----------------//
-				//movementControls object allows simultaneous movement of both player
-				const movementControls = {
-					player1Up: false,
-					player1Down: false,
-					player2Up: false,
-					player2Down: false,
-				};
 				document.addEventListener("keydown", function (e) {
 					pauseGame(e);
 					restartGame(e);
-					updateMovementControlsObject(e, movementControls, true);
-					enableDisablePlayerMovement(movementControls);
+					updateMovementControlsObject(e, true);
+					enableDisablePlayerMovement();
 				});
 				document.addEventListener("keyup", function (e) {
-					updateMovementControlsObject(e, movementControls, false);
-					enableDisablePlayerMovement(movementControls);
+					updateMovementControlsObject(e, false);
+					enableDisablePlayerMovement();
 				});
 			};
 
 			app.onUpdate = function (time) {
-				const ball = this.getNode("ball");
-				const player1 = this.getNode("player-1");
-				const player2 = this.getNode("player-2");
+				const ball = this.getNode(BALL);
+				const player1 = this.getNode(PLAYER_ONE);
+				const player2 = this.getNode(PLAYER_TWO);
 
 				if (!player1.x || !player2.x) return; // players not yet loaded
+				if (ball.speed < MIN_BALL_SPEED) ball.speed = MIN_BALL_SPEED; // minimum ball speed
 
-				drawPlayerScore(player1.score, 1 / 4);
-				drawPlayerScore(player2.score, 3 / 4);
+				drawPlayerScore(player1.score, PLAYER_ONE_SCORE_POS);
+				drawPlayerScore(player2.score, PLAYER_TWO_SCORE_POS);
 
 				if (this.paused) {
 					drawPausedTitle();
@@ -105,17 +62,13 @@
 					return;
 				}
 
-				const playerInCollision = ball.x < this.width / 2 ? player1 : player2;
-				const playerThatScored = ball.x < this.width / 2 ? player2 : player1;
-				if (ball.speed < 2) ball.speed = 2; // minimum ball speed
-
 				if (!app.freezeGame) {
 					movePlayer(player1, time);
 					movePlayer(player2, time);
 					moveBall(ball);
 					checkHasBallHitBoundary(ball);
-					checkHasPlayerScored(ball, playerThatScored);
-					checkBallPlayerCollision(ball, playerInCollision);
+					checkHasPlayerScored(ball);
+					checkBallPlayerCollision(ball);
 				}
 			};
 		</script>

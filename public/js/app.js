@@ -45,7 +45,6 @@ var app = {
 			var node = this.nodes[index];
 			this.context.fillStyle = node.color;
 
-			//draw rectangles for players
 			if (node.id === "ball") {
 				this.context.beginPath();
 				this.context.arc(node.x, node.y, node.r, 0, Math.PI * 2, true);
@@ -53,7 +52,6 @@ var app = {
 				this.context.fill();
 			}
 			if (node.id.includes("player")) {
-				//draw circle for ball
 				this.context.fillRect(node.x, node.y, node.width, node.height);
 			}
 			if (this.paused) {

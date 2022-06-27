@@ -1,20 +1,21 @@
-const W_KEY = 87;
-const S_KEY = 83;
-const UP_KEY = 38;
-const DOWN_KEY = 40;
-const SPACE_KEY = 32;
-const R_KEY = 82;
+//movementControls object allows simultaneous movement of both player
+const controls = {
+	player1Up: false,
+	player1Down: false,
+	player2Up: false,
+	player2Down: false,
+};
 
-function updateMovementControlsObject(e, controls, value) {
+function updateMovementControlsObject(e, value) {
 	if (e.keyCode == W_KEY) controls.player1Up = value;
 	if (e.keyCode == S_KEY) controls.player1Down = value;
 	if (e.keyCode == UP_KEY) controls.player2Up = value;
 	if (e.keyCode == DOWN_KEY) controls.player2Down = value;
 }
 
-function enableDisablePlayerMovement(controls) {
-	let player1 = app.getNode("player-1");
-	let player2 = app.getNode("player-2");
+function enableDisablePlayerMovement() {
+	let player1 = app.getNode(PLAYER_ONE);
+	let player2 = app.getNode(PLAYER_TWO);
 
 	player1.up = controls.player1Up;
 	player1.down = controls.player1Down;
@@ -28,9 +29,9 @@ function pauseGame(e) {
 }
 
 function restartGame(e) {
-	let player1 = app.getNode("player-1");
-	let player2 = app.getNode("player-2");
-	const ball = app.getNode("ball");
+	let player1 = app.getNode(PLAYER_ONE);
+	let player2 = app.getNode(PLAYER_TWO);
+	const ball = app.getNode(BALL);
 	const notHoldingKeyDown = !e.repeat;
 
 	if (app.paused && e.keyCode == R_KEY && notHoldingKeyDown) {
