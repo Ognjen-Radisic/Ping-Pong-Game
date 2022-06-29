@@ -60,6 +60,6 @@ function restartGame(e) {
 	if (app.paused && e.keyCode == R_KEY && notHoldingKeyDown) {
 		player1.score = 0;
 		player2.score = 0;
-		resetBall(ball);
+		utils.resetBall(ball);
 	}
 }

@@ -11,7 +11,13 @@ function BALL_RADIUS() {
 	return app.width / 70;
 }
 function BALL_SPEED() {
-	return app.width / 360;
+	return app.width / 360 < MIN_BALL_SPEED ? MIN_BALL_SPEED : app.width / 360;
+}
+function BALL_VELOCITY_X() {
+	return -3;
+}
+function BALL_VELOCITY_Y() {
+	return 3;
 }
 
 //players

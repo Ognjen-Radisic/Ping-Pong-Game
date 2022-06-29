@@ -29,10 +29,10 @@
 			app.onInit = function () {
 				initGameStates.removeOldEventListeners();
 
-				addBall();
-				addPlayer(PLAYER_ONE, PLAYER_X_POS());
-				addPlayer(PLAYER_TWO, app.width - PLAYER_X_POS() * 2);
-				addPauseScreenOverlay();
+				nodes.addBall();
+				nodes.addPlayer(PLAYER_ONE, PLAYER_X_POS());
+				nodes.addPlayer(PLAYER_TWO, app.width - PLAYER_X_POS() * 2);
+				nodes.addPauseScreenOverlay();
 
 				initGameStates.addNewEventListeners();
 			};
@@ -42,25 +42,23 @@
 				const player1 = this.getNode(PLAYER_ONE);
 				const player2 = this.getNode(PLAYER_TWO);
 
-				if (ball.speed < MIN_BALL_SPEED) ball.speed = MIN_BALL_SPEED; // minimum ball speed
-
-				drawPlayerScore(player1.score, PLAYER_ONE_SCORE_POS);
-				drawPlayerScore(player2.score, PLAYER_TWO_SCORE_POS);
+				drawText.playerScore(player1.score, PLAYER_ONE_SCORE_POS);
+				drawText.playerScore(player2.score, PLAYER_TWO_SCORE_POS);
 
 				if (this.paused) {
-					drawPausedTitle();
-					drawPausedSubtitle();
-					drawRestartCommandOptions();
+					drawText.pausedTitle();
+					drawText.pausedSubtitle();
+					drawText.restartTitle();
 					return;
 				}
 
 				if (!this.freezeGame) {
-					movePlayer(player1, time);
-					movePlayer(player2, time);
-					moveBall(ball);
-					checkHasBallHitBoundary(ball);
-					checkHasPlayerScored(ball);
-					checkBallPlayerCollision(ball);
+					movementAndCollision.movePlayer(player1, time);
+					movementAndCollision.movePlayer(player2, time);
+					movementAndCollision.moveBall(ball);
+					movementAndCollision.checkHasBallHitBoundary(ball);
+					movementAndCollision.checkHasPlayerScored(ball);
+					movementAndCollision.checkBallPlayerCollision(ball);
 				}
 			};
 		</script>
