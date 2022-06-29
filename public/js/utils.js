@@ -11,8 +11,8 @@ const utils = {
 		ball.x = FIELD_CENTER_X_AXIS();
 		ball.y = FIELD_CENTER_Y_AXIS();
 		ball.speed = BALL_SPEED();
-		ball.velocityX = BALL_VELOCITY_X();
-		ball.velocityY = BALL_VELOCITY_Y();
+		ball.velocityX = INIT_BALL_VELOCITY_X();
+		ball.velocityY = INIT_BALL_VELOCITY_Y();
 	},
 
 	getPlayerInCollision: function (ball) {
@@ -33,5 +33,9 @@ const utils = {
 		await new Promise((resolve) => setTimeout(resolve, 1500));
 		this.resetBall(ball);
 		app.freezeGame = false;
+	},
+
+	getDirection: function () {
+		return Math.random() > 0.5 ? -1 : 1;
 	},
 };

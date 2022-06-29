@@ -34,11 +34,7 @@ const movementAndCollision = {
 
 	checkBallPlayerCollision: function (ball) {
 		const playerInCollision = utils.getPlayerInCollision(ball);
-
 		if (utils.collision(ball, playerInCollision)) {
-			console.log(ball.speed, "speed");
-			console.log(ball.velocityX, "X");
-			console.log(ball.velocityY, "Y");
 			// we check where the ball hits the paddle
 			let collidePoint =
 				ball.y - (playerInCollision.y + playerInCollision.height / 2);
@@ -51,8 +47,6 @@ const movementAndCollision = {
 			// when the ball hits the bottom of the paddle we want the ball to take a 45degrees
 			// Math.PI/4 = 45degrees
 			let angleRad = (Math.PI / 4) * collidePoint;
-
-			console.log("rad", Math.cos(angleRad));
 
 			// change the X and Y velocity and X direction
 			let direction = ball.x + ball.r < canvas.width / 2 ? 1 : -1;

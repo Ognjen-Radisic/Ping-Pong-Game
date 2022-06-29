@@ -7,8 +7,8 @@ const nodes = {
 			r: BALL_RADIUS(),
 			color: RED,
 			speed: BALL_SPEED(),
-			velocityX: BALL_VELOCITY_X(),
-			velocityY: BALL_VELOCITY_Y(),
+			velocityX: INIT_BALL_VELOCITY_X(),
+			velocityY: INIT_BALL_VELOCITY_Y(),
 		});
 	},
 	addPlayer: function (id, xPos) {
