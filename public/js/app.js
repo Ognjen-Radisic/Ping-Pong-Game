@@ -24,8 +24,8 @@ var app = {
 		this.canvas = document.getElementById("canvas");
 		this.context = this.canvas.getContext("2d");
 
-		this.render();
 		this.onInit();
+		this.render();
 	},
 	render: function () {
 		this.clear();
@@ -87,7 +87,12 @@ var app = {
 	},
 };
 
-window.addEventListener("resize", app.resize);
+window.addEventListener("resize", () => {
+	app.paused = true;
+	app.resize();
+	app.nodes = [];
+	app.onInit();
+});
 
 window.onload = function () {
 	app.resize();

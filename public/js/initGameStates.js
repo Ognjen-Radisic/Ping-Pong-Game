@@ -1,3 +1,26 @@
+const initGameStates = {
+	removeOldEventListeners: function () {
+		document.removeEventListener("keydown", onKeyDownEvents, true);
+		document.removeEventListener("keyup", onKeyUpEvents, true);
+	},
+	addNewEventListeners: function () {
+		document.addEventListener("keydown", onKeyDownEvents, true);
+		document.addEventListener("keyup", onKeyUpEvents, true);
+	},
+};
+
+function onKeyDownEvents(e) {
+	pauseGame(e);
+	restartGame(e);
+	updateMovementControlsObject(e, true);
+	enableDisablePlayerMovement();
+}
+
+function onKeyUpEvents(e) {
+	updateMovementControlsObject(e, false);
+	enableDisablePlayerMovement();
+}
+
 //movementControls object allows simultaneous movement of both player
 const controls = {
 	player1Up: false,

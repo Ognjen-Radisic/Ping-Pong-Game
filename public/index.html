@@ -27,21 +27,14 @@
 		<script type="text/javascript" src="js/constants.js"></script>
 		<script type="text/javascript">
 			app.onInit = function () {
+				initGameStates.removeOldEventListeners();
+
 				addBall();
 				addPlayer(PLAYER_ONE, PLAYER_X_POS());
 				addPlayer(PLAYER_TWO, app.width - PLAYER_X_POS() * 2);
 				addPauseScreenOverlay();
 
-				document.addEventListener("keydown", function (e) {
-					pauseGame(e);
-					restartGame(e);
-					updateMovementControlsObject(e, true);
-					enableDisablePlayerMovement();
-				});
-				document.addEventListener("keyup", function (e) {
-					updateMovementControlsObject(e, false);
-					enableDisablePlayerMovement();
-				});
+				initGameStates.addNewEventListeners();
 			};
 
 			app.onUpdate = function (time) {
@@ -49,7 +42,6 @@
 				const player1 = this.getNode(PLAYER_ONE);
 				const player2 = this.getNode(PLAYER_TWO);
 
-				if (!player1.x || !player2.x) return; // players not yet loaded
 				if (ball.speed < MIN_BALL_SPEED) ball.speed = MIN_BALL_SPEED; // minimum ball speed
 
 				drawPlayerScore(player1.score, PLAYER_ONE_SCORE_POS);
@@ -62,7 +54,7 @@
 					return;
 				}
 
-				if (!app.freezeGame) {
+				if (!this.freezeGame) {
 					movePlayer(player1, time);
 					movePlayer(player2, time);
 					moveBall(ball);
