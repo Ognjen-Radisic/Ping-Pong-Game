@@ -1,46 +1,66 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Ping Pong Game</title>
-</head>
-<body>
-	<canvas id="canvas" width="800" height="400"></canvas>
-	<script type="text/javascript" src="js/app.js"></script>
-	<script type="text/javascript">
-		//Sample functions, remove these functions and design ping-pong game with onInit and onUpdate.
-
-		app.onInit = function(){
-			this.nodes.push({
-				id : 'red-box',
-				x  : 100,
-				y  : 0,
-				width  : 100,
-				height : 100,
-				color  : 'red',
-				direction : 0
-			});
-
-			this.nodes.push({
-				id : 'black-box',
-				x  : 50,
-				y  : 0,
-				width  : 150,
-				height : 150,
-				color  : 'black'
-			});
-		};
-
-		app.onUpdate = function(time){
-			this.getNode('black-box').y++;
-
-			if(Math.cos(this.timestamp / 100) > 0){
-				this.getNode('red-box').direction = -1;
-			}else{
-				this.getNode('red-box').direction = 1;
+	<head>
+		<title>Ping Pong Game</title>
+		<style>
+			* {
+				margin: 0;
+				overflow: hidden;
 			}
+			canvas {
+				box-shadow: black 5px 10px 50px;
+				margin-top: 50vh;
+				margin-left: 30px;
+				transform: translateY(-50%);
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" src="js/nodes.js"></script>
+		<script type="text/javascript" src="js/getterValues.js"></script>
+		<script type="text/javascript" src="js/drawText.js"></script>
+		<script type="text/javascript" src="js/initGameStates.js"></script>
+		<script type="text/javascript" src="js/movementAndCollision.js"></script>
+		<script type="text/javascript" src="js/utils.js"></script>
+		<script type="text/javascript" src="js/constants.js"></script>
+		<script type="text/javascript">
+			app.onInit = function () {
+				initGameStates.removeOldEventListeners();
 
-			this.getNode('red-box').x+=this.getNode('red-box').direction;
-		};
-	</script>
-</body>
+				nodes.addBall();
+				nodes.addPlayer(PLAYER_ONE, PLAYER_X_POS());
+				nodes.addPlayer(PLAYER_TWO, app.width - PLAYER_X_POS() * 2);
+				nodes.addPauseScreenOverlay();
+
+				initGameStates.addNewEventListeners();
+			};
+
+			app.onUpdate = function (time) {
+				const ball = this.getNode(BALL);
+				const player1 = this.getNode(PLAYER_ONE);
+				const player2 = this.getNode(PLAYER_TWO);
+
+				drawText.playerScore(player1.score, PLAYER_ONE_SCORE_POS);
+				drawText.playerScore(player2.score, PLAYER_TWO_SCORE_POS);
+
+				if (this.paused) {
+					drawText.pausedTitle();
+					drawText.pausedSubtitle();
+					drawText.restartTitle();
+					return;
+				}
+
+				if (!this.freezeGame) {
+					movementAndCollision.movePlayer(player1, time);
+					movementAndCollision.movePlayer(player2, time);
+					movementAndCollision.moveBall(ball);
+					movementAndCollision.checkHasBallHitBoundary(ball);
+					movementAndCollision.checkHasPlayerScored(ball);
+					movementAndCollision.checkBallPlayerCollision(ball);
+				}
+			};
+		</script>
+	</body>
 </html>
