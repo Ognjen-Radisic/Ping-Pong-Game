@@ -2,6 +2,10 @@
 
 Check it out LIVE : [Pong The Game](https://pong-game-oradisc.netlify.app/)
 
+## Game preview
+
+https://user-images.githubusercontent.com/59142427/177036348-af14f69c-6de5-4535-8aec-657ffa378c36.mp4
+
 ## Run on local machine
 
 Clone repository.
